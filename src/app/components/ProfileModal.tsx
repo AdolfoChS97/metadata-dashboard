@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const ProfileModal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-black bg-opacity-60">
@@ -17,7 +17,7 @@ const ProfileModal = ({ isOpen, onClose }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfileModal;
+export default ProfileModal
