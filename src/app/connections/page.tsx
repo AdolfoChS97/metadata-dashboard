@@ -7,15 +7,22 @@ import { PlusIcon, DatabaseIcon, PencilIcon, TrashIcon } from '@heroicons/react/
 const ConnectionsPage = () => {
 
   const router = useRouter()
-  const connections = [
-    { id: 1, connectionName: 'Connection 1', dataSource: 'Source 1', user: 'User 1' },
-    { id: 2, connectionName: 'Connection 2', dataSource: 'Source 2', user: 'User 2' },
-  ]
+
+  let ls = ''
+
+  if (typeof window !== "undefined") {
+    ls = localStorage.getItem("connections") || ""
+  }
+
+  let connections: any[] = [] 
+  if(ls) {
+    connections = JSON.parse(ls)
+  }
 
   return (
-    <>
+    <div>
       <GoBackArrow />
-      <div className="container mx-auto p-4">
+      <section className="container mx-auto p-4">
         <div className="flex flex-col md:flex-row justify-between items-center mb-4">
           <h1 className="text-2xl font-bold md:mb-0">Connections</h1>
           <button className="flex items-center bg-blue-500 text-white py-2 px-4 rounded mt-4 md:mt-0" onClick={() => router.push('/connections/create')}>
@@ -63,10 +70,10 @@ const ConnectionsPage = () => {
             </table>
           </div>
         ) : (
-          <p className="text-gray-600">There are no connections to show.</p>
+          <p className="text-gray-600 text-center mt-6">There are no connections to show.</p>
         )}
-      </div>
-    </>
+      </section>
+    </div>
   )
 }
 
