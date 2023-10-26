@@ -2,11 +2,12 @@ import { useRouter } from 'next/navigation'
 import React, { useState, useEffect } from 'react'
 import { ConnectionForm } from '../types/Connections.dt'
 import { findAndRemoveById } from '../utils/findAndRemoveById'
+import LocalStorageService from '../services/localStorage.service'
 
 const ConnectionForm = ({ action, id }: ConnectionForm) => {
   
   const router = useRouter()
-
+  const localStorageService = new LocalStorageService()
   const [formData, setFormData] = useState({
     id: 0,
     connectionName: '',
@@ -32,12 +33,10 @@ const ConnectionForm = ({ action, id }: ConnectionForm) => {
 
   const handleCreateConnection = () => {
     console.log('Creating connection...')
-    const connections = JSON.parse(localStorage.getItem('connections') as string) || []
+    const connections = localStorageService.getAllRecordsByKey('connections')
     formData.id = connections.length + 1
-    connections.push(formData)
-    localStorage.setItem('connections', JSON.stringify(connections))
+    localStorageService.addRecordByKey(connections, formData, 'connections')
 
-    // Reset the form after saving
     setFormData({
       connectionName: '',
       accountName: '',
@@ -47,14 +46,12 @@ const ConnectionForm = ({ action, id }: ConnectionForm) => {
       dataSource: 'Snowflake',
       id: 0
     })
-
     router.back()
-
   }
 
   const handleEditConnection = () => {
     console.log('Editing connection...')
-    const connections = JSON.parse(localStorage.getItem('connections') as string) || []
+    const connections = localStorageService.getAllRecordsByKey('connections')
     const connectionsData = findAndRemoveById(connections, id as string)
     
     connectionsData.connectionName = formData.connectionName
@@ -68,7 +65,7 @@ const ConnectionForm = ({ action, id }: ConnectionForm) => {
     if(connections.length > 0) connections.push(connectionsData)
     else connections.push({ ...connectionsData,})
 
-    localStorage.setItem('connections', JSON.stringify(connections))
+    localStorageService.updateRecordByKey(connections, 'connections')
 
     setFormData({
       connectionName: '',
@@ -84,11 +81,9 @@ const ConnectionForm = ({ action, id }: ConnectionForm) => {
   }
 
   useEffect(() => {
-    let ls = ''
     let connections = []
     if (typeof window !== "undefined" && id) {
-      ls = localStorage.getItem("connections") || "" as string
-      connections = JSON.parse(ls)
+      connections = localStorageService.getAllRecordsByKey('connections')
 
       if(id) {
         const connectionData = connections.find((conn: any) => conn.id == id);
