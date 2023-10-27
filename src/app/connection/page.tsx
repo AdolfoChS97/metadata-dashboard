@@ -42,7 +42,7 @@ const ConnectionsPage = () => {
       <section className="container mx-auto p-4">
         <div className="flex flex-col md:flex-row justify-between items-center mb-4">
           <h1 className="text-2xl font-bold md:mb-0">Connections</h1>
-          <button className="flex items-center bg-blue-500 text-white py-2 px-4 rounded mt-4 md:mt-0" onClick={() => router.push('/connections/create')}>
+          <button className="flex items-center bg-blue-500 text-white py-2 px-4 rounded mt-4 md:mt-0" onClick={() => router.push('/connection/create')}>
             <PlusIcon className="w-3 h-3 mr-2" /> 
             <span>Add Connection</span>
           </button>
@@ -69,7 +69,7 @@ const ConnectionsPage = () => {
                     <td className="border px-4 py-2">{connection.dataSource}</td>
                     <td className="border px-4 py-2">{connection.user}</td>
                     <td className="border px-4 py-2">
-                      <button className="text-blue-500 hover:underline flex items-center" onClick={() => router.push(`/connections/${connection.id}`)}>
+                      <button className="text-blue-500 hover:underline flex items-center" onClick={() => router.push(`/connection/${connection.id}`)}>
                         <PencilIcon className="w-5 h-5 mr-2" />
                         Edit
                       </button>
